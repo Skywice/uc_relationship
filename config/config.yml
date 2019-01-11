@@ -1,3 +1,7 @@
 news_source:
   renminwang: http://usa.people.com.cn/GB/406587/
   chinadaily: http://www.chinadaily.com.cn/world/china-us/
+
+ip_link:
+  xici_hide: http://www.xicidaili.com/nn/
+  xici_norm: http://www.xicidaili.com/nt/
