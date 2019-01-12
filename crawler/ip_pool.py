@@ -135,12 +135,12 @@ class ip_pool(Crawler):
         return ip_pool
 
     def test_proxy(self, proxy, pro_type):
-        test_url = 'https://www.baidu.com/'
+        test_url = 'http://www.chinadaily.com.cn/'
         timeout = 50
         try:
             proxies = {
-                'HTTPS': 'https://' + proxy,
-                'HTTP': 'http://' + proxy
+                'https': 'https://' + proxy,
+                'http': 'http://' + proxy
             }
             starttime = time.time()
             requests.get(test_url, timeout=timeout, proxies=proxies)

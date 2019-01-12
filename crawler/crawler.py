@@ -39,7 +39,7 @@ class Crawler(object):
             return False, None
 
     def get_proxy(self, pro_type='HTTP'):
-        df_proxy = sql_utils.select('select * from ip_pool where pro_type = "{}"'.format(pro_type))
+        df_proxy = sql_utils.select('select * from ip_pool where pro_type = "{}" and test_time < 100'.format(pro_type))
         df_proxy['proxy'] = df_proxy['ip'] + ':' + df_proxy['port']
         proxy_list = df_proxy['proxy'].values.tolist()
         return proxy_list
