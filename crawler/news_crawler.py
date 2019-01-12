@@ -55,28 +55,24 @@ class news_crawler(Crawler):
         }[encoding]
         final_encoding = ''
         
-        current_proxy = random.sample(self.proxy_list, 1)[0]
-        utils.LOG(LOG_ID, 'get html from {} in {}'.format(url, current_proxy))
-        current_proxy_dict = {
-            'HTTP': 'http://' + current_proxy,
-            'HTTPS': 'https://' + current_proxy 
-        }
-        try:
-            # req = requests.get(url, headers=self.headers, proxies=current_proxy_dict, timeout = 500)
-            req = requests.get(url, headers=self.headers, timeout = 500)
-        except Exception as e:
-            new_proxy = random.sample(self.proxy_list, 1)[0]
+        while True:
+            loop_count = 0
+            current_proxy = random.sample(self.proxy_list, 1)[0]
             current_proxy_dict = {
-                'HTTP': 'http://' + new_proxy,
-                'HTTPS': 'https://' + new_proxy 
+                'http': 'http://' + current_proxy,
+                'https': 'https://' + current_proxy 
             }
-            try:  # 尝试第二次
-                # req = requests.get(url, headers=self.headers, proxies=current_proxy_dict, timeout = 500)
+            # self.check_proxy(current_proxy)
+            try:
                 req = requests.get(url, headers=self.headers, proxies=current_proxy_dict, timeout = 500)
-                self.proxy_list.remove(current_proxy)
+                break
             except Exception as e:
-                utils.LOG('e', LOG_ID, 'failed to connect {}'.format(url))
-                return 'break'
+                current_proxy_list = current_proxy.split(':')
+                self.proxy_list.remove(current_proxy)
+            loop_count = loop_count + 1
+            if loop_count > 30:
+                break
+
         if req.status_code != 404:
             # encode in ISO-8859-1, and change it into gbk encoding
             try:
@@ -90,35 +86,79 @@ class news_crawler(Crawler):
                     try:
                         html_content = req.text.encode(req.encoding).decode('latin-1')
                     except UnicodeDecodeError as e:
-                        pd_fail_url = pd.DataFrame(columns=['url'])
-                        pd_fail_url['url'] = [url]
-                        utils.LOG('w', LOG_ID, url)
-                        self.fail_url_list.append(pd_fail_url)
-
+                        pass
+            html_content = html_content.replace('<EM>', '').replace('</EM>', '')  # 去除斜体
             return html_content
         else:
             utils.LOG('e', LOG_ID, 'Page Not Found')
             return '404'
 
 
-    def _get_content(self, url):
-        html_content = self._get_html(url, encoding='gbk', mode='article')
+    def get_cd_content(self, url):  # china daily news content
+        # http://www.chinadaily.com.cn/a/201901/11/WS5c38b543a3106c65c34e3feb.html
+        url = 'http:' + url
+        html_content = self._get_html(url, encoding='utf-8')
         div_content = BeautifulSoup(html_content, 'lxml')
         content_list = []
-        content_div = div_content.find('div', class_='stockcodec .xeditor')
-        if not content_div:
-            content_div = div_content.find('div', class_='xeditor_content')
+        content_div = div_content.find('div', id='Content')
         if content_div:
             content_p = content_div.find_all('p')
             if content_p:
                 for p in content_div.find_all('p'):
-                    content_list.append(p.get_text().replace('\n', '').replace(' ', ''))
-                return ''.join(content_list)
+                    content_list.append(p.get_text().replace('"', '').replace('\xa0', ''))
             else:
-                return content_div.get_text().replace('\n', '').replace(' ', '')
+                utils.LOG('w', LOG_ID, '无新闻p')
         else:
-            utils.LOG('w', LOG_ID, '******* content failed *******')
-            return 'no result'
+            utils.LOG('w', LOG_ID, '无新闻div')
+        return ' '.join(content_list)
+
+    def get_cd_list(self):
+        for i in range(1, 113):
+            
+            news_list_url = 'http://www.chinadaily.com.cn/world/china-us/page_{}.html'.format(i)
+            # html_content = self._get_html(news_list_url, encoding='utf-8')
+            # div_content = BeautifulSoup(html_content, 'lxml')
+            # arct_div_list = div_content.find('div', class_='main_art').find('div', class_='lft_art').find_all('div', class_='mb10 tw3_01_2')
+            # for div_ in arct_div_list:
+            #     div_cons = div_.get_text()
+            #     re_content = r'''<a shape="rect" href=(.*?)</a></h4>.*?<b>(.*?)</b>'''
+            #     pattern = re.compile(div_cons, re.DOTALL)
+            #     a = re.findall(pattern, html_content)
+            #     for i in 
+            date_list = []
+            time_list = []
+            title_list = []
+            content_list = []
+            link_list = []
+            html_content = self._get_html(news_list_url, encoding='utf-8')
+            re_content = r'''<a shape="rect" href="(.*?)">(.*?)</a></h4>.*?<b>(.*?)</b>'''
+            pattern = re.compile(re_content, re.DOTALL)
+            a = re.findall(pattern, html_content)
+            label = str(i)
+            for i in a:
+                link_list.append('http:' + a[0])
+                time_ = a[-1].split(' ')
+                time_list.append(time_[1])
+                date_list.append(time_[0])
+                title_list.append(a[1])
+                content_list.append(self.get_cd_content('http' + a[0]))
+            
+            pd_cd_news = pd.DataFrame(columns=['date', 'time', 'title', 'content', 'link', 'media', 'language', 'label'])
+            pd_cd_news['date'] = date_list
+            pd_cd_news['time'] = time_list
+            pd_cd_news['title'] = title_list
+            pd_cd_news['content'] = content_list
+            pd_cd_news['link'] = link_list
+            pd_cd_news['media'] = 'china_daily'
+            pd_cd_news['language'] = 'english'
+            pd_cd_news['label'] = label
+
+            sql_utils.save(pd_cd_news, 'news')
+
+            
+                
+
+
 
     def _parse_list(self, even_div):
         read_num = int(even_div.find('span', class_='l1').get_text())
@@ -286,7 +326,10 @@ class news_crawler(Crawler):
 
 if __name__ == "__main__":
     crawler = news_crawler()
-    utils.LOG('i', LOG_ID, crawler._get_html('http://usa.people.com.cn/GB/406587/index7.html', encoding='utf-8'))
+    # utils.LOG('i', LOG_ID, crawler._get_html('http://usa.people.com.cn/GB/406587/index7.html', encoding='utf-8'))  # 人民网新闻列表
+
+    utils.LOG('i', LOG_ID, crawler.get_cd_content('//www.chinadaily.com.cn/a/201901/11/WS5c38b543a3106c65c34e3feb.html'))  # china daily 新闻内容
+
 
 
 
