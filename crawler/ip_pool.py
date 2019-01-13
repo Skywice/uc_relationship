@@ -28,7 +28,8 @@ class ip_pool(Crawler):
     maintain an ip pool for data crawler
     use http://www.xicidaili.com/
     """
-    def __init__(self):
+    def __init__(self, media):
+        sql_utils.execute('delete from ip_pool')
         self.config = utils.CONF()
         self.agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
         self.headers = {'User-Agent': self.agent}
@@ -37,6 +38,12 @@ class ip_pool(Crawler):
         self.proxy_list = self.get_proxy(pro_type='HTTP')
         self.urls = [self.config['ip_link']['xici_hide'], self.config['ip_link']['xici_norm']]
         self.url_type = ''
+
+        self.test_url = {
+            'china_daily': 'http://www.chinadaily.com.cn/',
+            'renminwang': 'http://usa.people.com.cn/GB/406587/'
+        }[media]
+        self.get_ip()
 
 
     def get_ip(self):
@@ -51,10 +58,6 @@ class ip_pool(Crawler):
             for page in pages:
                 html_content = self._get_html(url + page)
                 self._parse_hide_html(html_content)
-            try:
-                sql_utils.save(pd_ip_pool, 'ip_pool', if_exists='append')
-            except OperationalError:
-                utils.LOG('e', LOG_ID, '数据库连接异常')
             time.sleep(random.random() * 20)
 
     def _get_html(self, url):
@@ -127,12 +130,13 @@ class ip_pool(Crawler):
         ip_pool['test_time'] = test_time_list
         ip_pool['pro_type'] = type_list
         ip_pool['net_type'] = self.url_type
-
-        sql_utils.save(ip_pool, 'ip_pool', if_exists='append')
-        return ip_pool
+        try:
+            sql_utils.save(ip_pool, 'ip_pool', if_exists='append')
+        except Exception as e:
+            sql_utils.replace_save(ip_pool, 'ip_pool')
 
     def test_proxy(self, proxy, pro_type):
-        test_url = 'http://www.chinadaily.com.cn/'
+        test_url = self.test_url
         timeout = 50
         try:
             proxies = {

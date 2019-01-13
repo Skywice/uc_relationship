@@ -1,3 +1,5 @@
+CREATE TABLE `rc_relationship` IF NOT EXISTS `rc_relationship`;
+
 -- ----------------------------
 -- 1. ip_pool 代理IP表
 -- ----------------------------

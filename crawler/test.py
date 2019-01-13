@@ -150,42 +150,43 @@ $("#logout").bind('click', function(event){
   <div class="fl w655">
      <div class="lujing"><a href="http://www.people.com.cn/">人民网</a> &gt;&gt; <a href="http://usa.people.com.cn/">美国频道</a> &gt;&gt; <a href="http://usa.people.com.cn/GB/406587/">中美关系</a></div>
      <div class="ej_list_box clear">
-       <ul class="list_16 mt10"><li><a href='/n1/2018/0709/c241376-30135550.html' target=_blank>“强制技术转让”悖离事实，改革开放将行稳致远</a> <em>2018-07-09</em></li>
-<li><a href='/n1/2018/0709/c241376-30135548.html' target=_blank>财经观察：多国企业抱怨美加征关税严重干扰全球供应链和贸易流 　</a> <em>2018-07-09</em></li>
-<li><a href='/n1/2018/0706/c241376-30131633.html' target=_blank>财经观察：特朗普政府挑起对华经贸摩擦不得人心</a> <em>2018-07-06</em></li>
-<li><a href='/n1/2018/0704/c241376-30125764.html' target=_blank>专家学者建言弘扬华人慈善精神提升华商社会责任</a> <em>2018-07-04</em></li>
-<li><a href='/n1/2018/0702/c241376-30105868.html' target=_blank>200多名美国“洋弟子”不远万里“朝圣”少林功夫</a> <em>2018-07-02</em></li>
-<li><a href='/n1/2018/0622/c241376-30077737.html' target=_blank>商务部：若美出台所谓征税清单，中方将综合使用数量型和质量型工具等各种举措予以回应</a> <em>2018-06-22</em></li>
-<li><a href='/n1/2018/0622/c241376-30077727.html' target=_blank>小农机厂“出海”记——中国改革开放的北美故事</a> <em>2018-06-22</em></li>
-<li><a href='/n1/2018/0622/c241376-30077721.html' target=_blank>综合消息：美加征钢铝关税招致贸易伙伴反击</a> <em>2018-06-22</em></li>
-<li><a href='/n1/2018/0622/c241376-30077701.html' target=_blank>商务部：美政府单边征税措施引起美国内强烈担忧和普遍反对</a> <em>2018-06-22</em></li>
-<li><a href='/n1/2018/0620/c241376-30069634.html' target=_blank>外交部：奉劝美方回归理性，停止损人不利己的言行</a> <em>2018-06-20</em></li>
+       <ul class="list_16 mt10"><li><a href='/n1/2018/0824/c241376-30249891.html' target=_blank>蓬佩奥宣布比根将担任美国朝鲜政策特别代表</a> <em>2018-08-24</em></li>
+<li><a href='/n1/2018/0824/c241376-30249881.html' target=_blank>新华国际时评：这样“装睡”到何时？</a> <em>2018-08-24</em></li>
+<li><a href='/n1/2018/0824/c241376-30249875.html' target=_blank>中国在世贸组织起诉美国对160亿美元中国产品的征税措施</a> <em>2018-08-24</em></li>
+<li><a href='/n1/2018/0823/c241376-30247325.html' target=_blank>特写：“别让关税毁了这些美国工薪家庭的希望”</a> <em>2018-08-23</em></li>
+<li><a href='/n1/2018/0823/c241376-30247323.html' target=_blank>美联储警告贸易争端升级将威胁美国经济</a> <em>2018-08-23</em></li>
+<li><a href='/n1/2018/0823/c241376-30247320.html' target=_blank>商务部新闻发言人就美国对１６０亿美元中国产品征税发表谈话</a> <em>2018-08-23</em></li>
+<li><a href='/n1/2018/0821/c241376-30242367.html' target=_blank>美经济学家忧特朗普关税政策拖累经济增长</a> <em>2018-08-21</em></li>
+<li><a href='/n1/2018/0821/c241376-30242361.html' target=_blank>美军一直升机在伊拉克坠毁致１死３伤</a> <em>2018-08-21</em></li>
+<li><a href='/n1/2018/0816/c241376-30233523.html' target=_blank>与中国市场共赢方为明智之举</a> <em>2018-08-16</em></li>
+<li><a href='/n1/2018/0816/c241376-30233520.html' target=_blank>辛识平：美式霸道走不远</a> <em>2018-08-16</em></li>
 </ul>
        <div class="line1"></div>
-       <ul class=" list_16 mt10"><li><a href='/n1/2018/0619/c241376-30066681.html' target=_blank>商务部新闻发言人就美白宫6月18日声明发表谈话</a> <em>2018-06-19</em></li>
-<li><a href='/n1/2018/0615/c241376-30062563.html' target=_blank>王毅同美国务卿蓬佩奥举行会谈</a> <em>2018-06-15</em></li>
-<li><a href='/n1/2018/0615/c241376-30062562.html' target=_blank>习近平会见美国国务卿蓬佩奥</a> <em>2018-06-15</em></li>
-<li><a href='/n1/2018/0614/c241376-30059542.html' target=_blank>美媒：采用高考成绩，美大学打开一扇门</a> <em>2018-06-14</em></li>
-<li><a href='/n1/2018/0613/c241376-30055542.html' target=_blank>美国国务卿蓬佩奥将访华</a> <em>2018-06-13</em></li>
-<li><a href='/n1/2018/0613/c241376-30055539.html' target=_blank>对这件事，中方已向美提出严正交涉</a> <em>2018-06-13</em></li>
-<li><a href='/n1/2018/0612/c241376-30053389.html' target=_blank>王毅：希望朝美领导人会晤为实现半岛无核化、建立半岛和平机制迈出实质性步伐</a> <em>2018-06-12</em></li>
-<li><a href='/n1/2018/0605/c241376-30037459.html' target=_blank>守护共识需中美相向笃定而行——中美经贸北京磋商传递的信号</a> <em>2018-06-05</em></li>
-<li><a href='/n1/2018/0604/c241376-30035147.html' target=_blank>练武吧，爸爸——一个美国武术家庭的梦想</a> <em>2018-06-04</em></li>
-<li><a href='/n1/2018/0604/c241376-30035125.html' target=_blank>中方就中美经贸磋商发表声明</a> <em>2018-06-04</em></li>
+       <ul class=" list_16 mt10"><li><a href='/n1/2018/0816/c241376-30233519.html' target=_blank>应美方邀请，商务部副部长王受文将率团赴美举行中美经贸问题副部级磋商</a> <em>2018-08-16</em></li>
+<li><a href='/n1/2018/0815/c241376-30230971.html' target=_blank>
+商务部新闻发言人就中国在世贸组织起诉美国光伏保障措施和可再生能源补贴措施发表谈话</a> <em>2018-08-15</em></li>
+<li><a href='/n1/2018/0815/c241376-30230970.html' target=_blank>国防部新闻发言人就美方签署“2019财年国防授权法案”发表谈话</a> <em>2018-08-15</em></li>
+<li><a href='/n1/2018/0815/c241376-30230968.html' target=_blank>外交部对美签署“二〇一九财年国防授权法案”表示强烈不满</a> <em>2018-08-15</em></li>
+<li><a href='/n1/2018/0814/c241376-30227010.html' target=_blank>新华社评论员：认清中美关系的“坎”与“势”</a> <em>2018-08-14</em></li>
+<li><a href='/n1/2018/0813/c241376-30226226.html' target=_blank>挑起贸易战有损全球共同利益</a> <em>2018-08-13</em></li>
+<li><a href='/n1/2018/0813/c241376-30226222.html' target=_blank>美媒：孔子学院在非洲并非如西方想象</a> <em>2018-08-13</em></li>
+<li><a href='/n1/2018/0810/c241376-30222531.html' target=_blank>来，听听美国业界的声音</a> <em>2018-08-10</em></li>
+<li><a href='/n1/2018/0810/c241376-30222530.html' target=_blank>美对我经济模式的指责贻笑大方</a> <em>2018-08-10</em></li>
+<li><a href='/n1/2018/0809/c241376-30220043.html' target=_blank>美国务院称将因俄前特工中毒事件对俄实施制裁</a> <em>2018-08-09</em></li>
 </ul>
        <div class="line1"></div>
-       <ul class=" list_16 mt10"><li><a href='/n1/2018/0601/c241376-30029671.html' target=_blank>“鹰派”戴维森——美军印太司令部首任司令</a> <em>2018-06-01</em></li>
-<li><a href='/n1/2018/0531/c241376-30026646.html' target=_blank>中国学生留学美国意愿下降</a> <em>2018-05-31</em></li>
-<li><a href='/n1/2018/0530/c241376-30024094.html' target=_blank>商务部：白宫策略性声明有悖于中美双方共识</a> <em>2018-05-30</em></li>
-<li><a href='/n1/2018/0529/c241376-30021548.html' target=_blank>中国驻世贸组织代表：知识产权不应成为贸易保护主义工具</a> <em>2018-05-29</em></li>
-<li><a href='/n1/2018/0529/c241376-30021545.html' target=_blank>美国一飞行教官因涉嫌绑架中国学员被捕</a> <em>2018-05-29</em></li>
-<li><a href='/n1/2018/0528/c241376-30019144.html' target=_blank>美国军舰擅自进入中国西沙群岛领海 外交部回应</a> <em>2018-05-28</em></li>
-<li><a href='/n1/2018/0525/c241376-30014910.html' target=_blank>美取消邀请中方参加环太军演 外交部：胁迫中方放弃固有权利是徒劳的</a> <em>2018-05-25</em></li>
-<li><a href='/n1/2018/0525/c241376-30014907.html' target=_blank>刘鹤副总理应约与美商务部长罗斯通话</a> <em>2018-05-25</em></li>
-<li><a href='/n1/2018/0525/c241376-30014901.html' target=_blank>美国中田纳西州立大学与湖南雪峰山旅游公司签订校企合作协议</a> <em>2018-05-25</em></li>
-<li><a href='/n1/2018/0524/c241376-30012372.html' target=_blank>外媒：美国政府封杀中兴只会令中国科技摆脱依赖</a> <em>2018-05-24</em></li>
+       <ul class=" list_16 mt10"><li><a href='/n1/2018/0809/c241376-30220041.html' target=_blank>商务部新闻发言人就中方对约160亿美元自美进口产品采取反制措施发表谈话</a> <em>2018-08-09</em></li>
+<li><a href='/n1/2018/0808/c241376-30217474.html' target=_blank>美国业界反对特朗普政府对华商品加征关税</a> <em>2018-08-08</em></li>
+<li><a href='/n1/2018/0808/c241376-30217472.html' target=_blank>特朗普政府挑起的贸易争端正在伤害美国——访美国乔治·梅森大学经济学教授唐纳德·布德罗</a> <em>2018-08-08</em></li>
+<li><a href='/n1/2018/0807/c241376-30214904.html' target=_blank>辛识平：贸易战的“回旋镖”击中了谁？</a> <em>2018-08-07</em></li>
+<li><a href='/n1/2018/0807/c241376-30214902.html' target=_blank>联合国秘书长赞赏中西非国家为地区协作反恐所做出的努力</a> <em>2018-08-07</em></li>
+<li><a href='/n1/2018/0807/c241376-30214899.html' target=_blank>美国亚文交响乐团在纽约举办布莱恩特公园音乐会</a> <em>2018-08-07</em></li>
+<li><a href='/n1/2018/0807/c241376-30214886.html' target=_blank>匹兹堡迎来首批中国直航游客</a> <em>2018-08-07</em></li>
+<li><a href='/n1/2018/0803/c241376-30208293.html' target=_blank>诺贝尔经济学奖得主约瑟夫?斯蒂格利茨：美国面临输掉贸易战的危险</a> <em>2018-08-03</em></li>
+<li><a href='/n1/2018/0802/c241376-30203386.html' target=_blank>美参议员提议改革涉国家安全关税决策程序</a> <em>2018-08-02</em></li>
+<li><a href='/n1/2018/0801/c241376-30186813.html' target=_blank>特朗普愿见鲁哈尼 美多名官员“降低调门”</a> <em>2018-08-01</em></li>
 </ul>
-       <div class="page_n clearfix"><a href='index3.html'  >上一页</a>&nbsp;&nbsp;<a href='index2.html'  >2</a>&nbsp;<a href='index3.html'  >3</a>&nbsp;<a class="common_current_page">4</a>&nbsp;<a href='index5.html'  >5</a>&nbsp;<a href='index6.html'  >6</a>&nbsp;<a href='index7.html'  >7</a>&nbsp;&nbsp;&nbsp;<a href='index5.html'  >下一页</a></div><!--all page--><!--PageNo=7-->
+       <div class="page_n clearfix"><a href='index1.html'  >上一页</a>&nbsp;&nbsp;<a href='index1.html'  >1</a>&nbsp;<a class="common_current_page">2</a>&nbsp;<a href='index3.html'  >3</a>&nbsp;<a href='index4.html'  >4</a>&nbsp;<a href='index5.html'  >5</a>&nbsp;<a href='index6.html'  >6</a>&nbsp;<a href='index7.html'  >7</a>&nbsp;&nbsp;&nbsp;<a href='index3.html'  >下一页</a></div><!--all page--><!--PageNo=7-->
 </div>
   </div>
   <div class="fr w310">
