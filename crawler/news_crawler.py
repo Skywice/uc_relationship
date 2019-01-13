@@ -11,7 +11,6 @@ import re
 import os
 from bs4 import BeautifulSoup
 import multiprocessing as mp
-from progressbar import ProgressBar
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 from sqlalchemy.exc import InternalError
@@ -48,7 +47,7 @@ class news_crawler(Crawler):
         utils.LOG(LOG_ID, '共有{}个IP可供爬虫使用'.format(self.proxy_list_len))
 
     def _get_html(self, url, encoding):
-        utils.LOG('i', LOG_ID, url)
+        # utils.LOG('i', LOG_ID, url)
         if len(self.proxy_list) < 50:
             self.proxy_list = self.get_proxy()
         other_encoding = {
@@ -66,6 +65,7 @@ class news_crawler(Crawler):
             # self.check_proxy(current_proxy)
             try:
                 req = requests.get(url, headers=self.headers, proxies=current_proxy_dict, timeout = 500)
+                # req = requests.get(url, headers=self.headers, timeout = 500)
                 break
             except Exception as e:
                 print('connect fail')
@@ -99,7 +99,6 @@ class news_crawler(Crawler):
     def get_cd_content(self, url):  # china daily news content
         # http://www.chinadaily.com.cn/a/201901/11/WS5c38b543a3106c65c34e3feb.html
         url = 'http:' + url
-        print(url)
         html_content = self._get_html(url, encoding='utf-8')
         div_content = BeautifulSoup(html_content, 'lxml')
         content_list = []
@@ -119,8 +118,8 @@ class news_crawler(Crawler):
     def get_cd_list(self):
         saved_pages = sql_utils.select('select distinct(page) from news where media="china_daily" ').values.tolist()  # 已经保存的页面
         all_pages = list(range(1, 113))
-        left_pages = list(set(saved_pages) ^ set(all_pages))[:1]
-        utils.LOG('i', LOG_ID, left_pages)
+        left_pages = list(set(saved_pages) ^ set(all_pages))
+        # utils.LOG('i', LOG_ID, left_pages)
         utils.LOG('i', LOG_ID, 'There are still {} pages in china daily'.format(len(left_pages)))
         for page in left_pages:
             start_time = time.time()
@@ -138,9 +137,9 @@ class news_crawler(Crawler):
             a = re.findall(pattern, html_content)
             utils.LOG('i', LOG_ID, '网页解析结束')
             for i in a:
-                utils.LOG('i', LOG_ID, i)
+                # utils.LOG('i', LOG_ID, i)
                 content_url = i[0]
-                utils.LOG('i', LOG_ID, content_url)
+                # utils.LOG('i', LOG_ID, content_url)
                 # if not content_url.startswith('http'):
                 #     content_url = 'http:' + content_url
                 link_list.append(content_url)
@@ -164,14 +163,93 @@ class news_crawler(Crawler):
                 sql_utils.save(pd_cd_news, 'news')
             except Exception as e:
                 utils.LOG('w', LOG_ID, 'SHIT HAPPEND IN SAVING PROGRESS!')
-                sql_utils.replace_save(pd_cd_news, 'news')
+                # sql_utils.replace_save(pd_cd_news, 'news')
+                pd_cd_news.to_csv('./china_daily_{}'.format(page), index=False)
 
             end_time = time.time()
             used_time = end_time - start_time
             utils.LOG('i', LOG_ID, 'Used {:4f} seconds in crawling {}th page from china daily')
 
     def get_rmw_content(self, url):  # 人民网新闻内容
-        pass
+        base_url = 'http://usa.people.com.cn'
+        url = base_url + url
+        html_content = self._get_html(url, encoding='gbk')
+        # 获取新闻时间
+        re_content = r'''日\d{1,2}:\d{1,2}&nbsp;&nbsp;'''
+        pattern = re.compile(re_content, re.DOTALL)
+        a = re.findall(pattern, html_content)
+        print(a)
+        time_ = a[0][1:6]
+        div_content = BeautifulSoup(html_content, 'lxml')
+        content_list = []
+        content_div = div_content.find('div', class_='clearfix w1000_320 text_con').find('div', class_='fl text_con_left').find('div', class_='box_con')
+        if content_div:
+            content_p = content_div.find_all('p')
+            if content_p:
+                for p in content_div.find_all('p'):
+                    content_list.append(p.get_text())
+            else:
+                utils.LOG('w', LOG_ID, '无新闻p')
+        else:
+            utils.LOG('w', LOG_ID, '无新闻div')
+        content_text = ' '.join(content_list).replace('"', '')
+        return time_, content_text
+
+    def get_rmw_list(self):  # 人民网新闻内容
+        base_url = 'http://usa.people.com.cn'
+        saved_pages = sql_utils.select('select distinct(page) from news where media="renminwang" ').values.tolist()  # 已经保存的页面
+        all_pages = list(range(1, 7))
+        left_pages = list(set(saved_pages) ^ set(all_pages))
+        # utils.LOG('i', LOG_ID, left_pages)
+        utils.LOG('i', LOG_ID, 'There are still {} pages in renminwang'.format(len(left_pages)))
+        for page in left_pages:
+            start_time = time.time()
+            news_list_url = 'http://usa.people.com.cn/GB/406587/index{}.html'.format(page)
+            utils.LOG('i', LOG_ID, 'Start crawling {}th page from renminwang'.format(page))
+            date_list = []
+            time_list = []
+            title_list = []
+            content_list = []
+            link_list = []
+            utils.LOG('i', LOG_ID, '开始解析网页')
+            html_content = self._get_html(news_list_url, encoding='gbk')
+            re_content = r'''<li><a href='(.*?)' target=_blank>(.*?)</a> <em>(.*?)</em></li>'''
+            pattern = re.compile(re_content, re.DOTALL)
+            a = re.findall(pattern, html_content)
+            utils.LOG('i', LOG_ID, '网页解析结束')
+            for i in a:
+                date_list.append(i[-1])
+                title_list.append(i[1])
+                link = i[0]
+                link_list.append(link)
+                time_, content = self.get_rmw_content(link)
+                time_list.append(time_)
+                content_list.append(content)
+            
+            pd_cd_news = pd.DataFrame(columns=['date', 'time', 'title', 'content', 'link', 'media', 'language', 'label'])
+            pd_cd_news['date'] = date_list
+            pd_cd_news['time'] = time_list
+            pd_cd_news['title'] = title_list
+            pd_cd_news['content'] = content_list
+            pd_cd_news['link'] = link_list
+            pd_cd_news['media'] = 'renminwang'
+            pd_cd_news['language'] = 'chinese'
+            pd_cd_news['page'] = page
+
+            try:
+                sql_utils.save(pd_cd_news, 'news')
+            except Exception as e:
+                utils.LOG('w', LOG_ID, 'SHIT HAPPEND IN SAVING PROGRESS!')
+                # sql_utils.replace_save(pd_cd_news, 'news')
+                pd_cd_news.to_csv('./renminwang_{}'.format(page), index=False)
+
+            end_time = time.time()
+            used_time = end_time - start_time
+            utils.LOG('i', LOG_ID, 'Used {:4f} seconds in crawling {}th page from renminwang')
+                
+
+
+            
 
 
 if __name__ == "__main__":
@@ -180,7 +258,9 @@ if __name__ == "__main__":
     # utils.LOG('i', LOG_ID, crawler._get_html('http://www.chinadaily.com.cn/world/china-us/page_1.html', encoding='gbk'))
 
     # utils.LOG('i', LOG_ID, crawler.get_cd_content('//www.chinadaily.com.cn/a/201901/11/WS5c38b543a3106c65c34e3feb.html'))  # china daily 新闻内容
-    crawler.get_cd_list()
+    # print(crawler.get_rmw_content('/n1/2018/0525/c241376-30014901.html'))
+    # crawler.get_cd_list()
+    crawler.get_rmw_list()
 
 
 

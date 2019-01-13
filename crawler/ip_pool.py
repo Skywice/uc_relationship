@@ -41,7 +41,6 @@ class ip_pool(Crawler):
 
     def get_ip(self):
         # sql_utils.execute('delete from ip_pool')
-        all_ips = []
         for url in self.urls:
             self.url_type = self._url_type(url)
             start_page = 0
@@ -51,16 +50,12 @@ class ip_pool(Crawler):
             ip_pool = []
             for page in pages:
                 html_content = self._get_html(url + page)
-                ips = self._parse_hide_html(html_content)
-                ip_pool.append(ips)
-            pd_ip_pool = pd.concat(ip_pool)
-            all_ips.append(pd_ip_pool)
+                self._parse_hide_html(html_content)
             try:
                 sql_utils.save(pd_ip_pool, 'ip_pool', if_exists='append')
             except OperationalError:
                 utils.LOG('e', LOG_ID, '数据库连接异常')
             time.sleep(random.random() * 20)
-        # all_ip = pd.concat(all_ips)
 
     def _get_html(self, url):
         utils.LOG(LOG_ID, 'get html from {}'.format(url))
@@ -132,6 +127,8 @@ class ip_pool(Crawler):
         ip_pool['test_time'] = test_time_list
         ip_pool['pro_type'] = type_list
         ip_pool['net_type'] = self.url_type
+
+        sql_utils.save(ip_pool, 'ip_pool', if_exists='append')
         return ip_pool
 
     def test_proxy(self, proxy, pro_type):
