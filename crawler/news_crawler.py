@@ -48,7 +48,7 @@ class news_crawler(Crawler):
         utils.LOG(LOG_ID, '共有{}个IP可供爬虫使用'.format(self.proxy_list_len))
 
     def _get_html(self, url, encoding):
-        print(url)
+        utils.LOG('i', LOG_ID, url)
         if len(self.proxy_list) < 50:
             self.proxy_list = self.get_proxy()
         other_encoding = {
@@ -56,9 +56,8 @@ class news_crawler(Crawler):
             'gbk': 'utf-8'
         }[encoding]
         final_encoding = ''
-        
+        loop_count = 0
         while True:
-            loop_count = 0
             current_proxy = random.sample(self.proxy_list, 1)[0]
             current_proxy_dict = {
                 'http': 'http://' + current_proxy,
@@ -69,9 +68,10 @@ class news_crawler(Crawler):
                 req = requests.get(url, headers=self.headers, proxies=current_proxy_dict, timeout = 500)
                 break
             except Exception as e:
-                # self.proxy_list.remove(current_proxy)
+                print('connect fail')
                 pass
             loop_count = loop_count + 1
+            print(loop_count)
             if loop_count > 30:
                 break
 
@@ -113,12 +113,14 @@ class news_crawler(Crawler):
                 utils.LOG('w', LOG_ID, '无新闻p')
         else:
             utils.LOG('w', LOG_ID, '无新闻div')
-        return ' '.join(content_list)
+        content_text = ' '.join(content_list)
+        return content_text
 
     def get_cd_list(self):
-        saved_pages = sql_utils.select('select distinct(page) from news ').values.tolist()  # 已经保存的页面
+        saved_pages = sql_utils.select('select distinct(page) from news where media="china_daily" ').values.tolist()  # 已经保存的页面
         all_pages = list(range(1, 113))
-        left_pages = list(set(saved_pages) ^ set(all_pages))
+        left_pages = list(set(saved_pages) ^ set(all_pages))[:1]
+        utils.LOG('i', LOG_ID, left_pages)
         utils.LOG('i', LOG_ID, 'There are still {} pages in china daily'.format(len(left_pages)))
         for page in left_pages:
             start_time = time.time()
@@ -129,15 +131,18 @@ class news_crawler(Crawler):
             title_list = []
             content_list = []
             link_list = []
+            utils.LOG('i', LOG_ID, '开始解析网页')
             html_content = self._get_html(news_list_url, encoding='gbk')
             re_content = r'''<h4><a shape="rect" href="(.*?)">(.*?)</a></h4>\n\s*<b>(.*?)</b>'''
             pattern = re.compile(re_content, re.DOTALL)
             a = re.findall(pattern, html_content)
+            utils.LOG('i', LOG_ID, '网页解析结束')
             for i in a:
-                print(i)
+                utils.LOG('i', LOG_ID, i)
                 content_url = i[0]
-                if not content_url.startswith('http'):
-                    content_url = 'http:' + content_url
+                utils.LOG('i', LOG_ID, content_url)
+                # if not content_url.startswith('http'):
+                #     content_url = 'http:' + content_url
                 link_list.append(content_url)
                 time_ = i[-1].split(' ')
                 time_list.append(time_[1])
@@ -157,7 +162,7 @@ class news_crawler(Crawler):
 
             try:
                 sql_utils.save(pd_cd_news, 'news')
-            except:
+            except Exception as e:
                 utils.LOG('w', LOG_ID, 'SHIT HAPPEND IN SAVING PROGRESS!')
                 sql_utils.replace_save(pd_cd_news, 'news')
 
