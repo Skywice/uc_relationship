@@ -188,7 +188,14 @@ class news_crawler(Crawler):
         
         div_content = BeautifulSoup(html_content, 'lxml')
         content_list = []
-        content_div = div_content.find('div', class_='clearfix w1000_320 text_con').find('div', class_='fl text_con_left').find('div', class_='box_con')
+        try:
+            text_div = div_content.find('div', class_='clearfix w1000_320 text_con')
+            left_div = text_div.find('div', class_='fl text_con_left')
+            content_div = left_div.find('div', class_='box_con')
+        except Exception as e:
+            content_div = None
+            utils.LOG('i', LOG_ID, '新闻div未找到')
+            
         if content_div:
             content_p = content_div.find_all('p')
             if content_p:
@@ -274,8 +281,8 @@ if __name__ == "__main__":
 
     # utils.LOG('i', LOG_ID, crawler.get_cd_content('//www.chinadaily.com.cn/a/201901/11/WS5c38b543a3106c65c34e3feb.html'))  # china daily 新闻内容
     # utils.LOG('i', LOG_ID, crawler.get_rmw_content('/n1/2018/0914/c241376-30294379.html'))
-    crawler.get_cd_list()
-    # crawler.get_rmw_list()
+    # crawler.get_cd_list()
+    crawler.get_rmw_list()
 
 
 
